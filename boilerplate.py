@@ -32,13 +32,17 @@ args = parser.parse_args()
 
 def handle_js():
   try:
-    os.mkdir(os.path.join(os.getcwd(), "js"))
+    dirname = os.path.join(os.getcwd(), "js")
+    os.mkdir(dirname)
+    open(os.path.join(dirname, "main.js"), "a").close()
   except OSError:
     print("Creation of JavaScript directory failed.")
 
 def handle_css():
   try:
-    os.mkdir(os.path.join(os.getcwd(), "css"))
+    dirname = os.path.join(os.getcwd(), "css")
+    os.mkdir(dirname)
+    open(os.path.join(dirname, "main.css"), "a").close()
   except:
     print("Creation of CSS directory failed.")
 
