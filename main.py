@@ -1,6 +1,7 @@
 #! /usr/local/bin/python3
 import argparse
 import os
+import itertools
 
 CSS_LINK = "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">"
 JS_LINK = "<script src=\"js/main.js\"></script>"
@@ -47,21 +48,22 @@ def modify_index(js=False, css=False):
   output_template = os.path.join(os.getcwd(), "index.html")
   with open(input_template, "r") as input_file, open(output_template, "w") as output_file:
     for line in input_file:
+      whitespace = "".join(itertools.takewhile(str.isspace, line))
       stripped_line = line.strip()
 
       if stripped_line in js_map:
         if args.js:
-          output_file.write(js_map[stripped_line])
+          output_file.write(whitespace + js_map[stripped_line] + "\n")
         else:
-          output_file.write("")
+          continue
 
       if stripped_line in css_map:
         if args.css:
-          output_file.write(css_map[stripped_line])
+          output_file.write(whitespace + css_map[stripped_line] + "\n")
         else:
-          output_file.write("")
+          continue
 
-      if stripped_line not in css_map or js_map:
+      if stripped_line not in css_map and stripped_line not in js_map:
         output_file.write(line)
 
 
@@ -71,8 +73,4 @@ if __name__ == '__main__':
   if args.css:
     handle_css()
   modify_index(args.js, args.css)
-
-
-
-
 
